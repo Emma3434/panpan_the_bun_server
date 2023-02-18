@@ -1,35 +1,42 @@
-require('dotenv').config();
 const express = require('express');
-const cors = require('cors');
 const mongoose = require('mongoose');
+const cors = require('cors');
+const bodyParser = require('body-parser');
 
 const app = express();
 
-const port = process.env.PORT || 3000;
-const uri = process.env.MONGODB_URI;
+// Connect to MongoDB database
+mongoose.connect('mongodb://localhost/my-blog', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
-mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.log(err));
+// Define blog schema
+const blogSchema = new mongoose.Schema({
+  title: String,
+  content: String,
+});
 
+// Define blog model
+const Blog = mongoose.model('Blog', blogSchema);
+
+// Use middleware
 app.use(cors());
-app.use(express.json());
+app.use(bodyParser.json());
 
-const postSchema = new mongoose.Schema({
-  id: Number,
-  date: Date,
-  content: Object
+// Define server routes
+app.get('/blogs', async (req, res) => {
+  const blogs = await Blog.find();
+  res.json(blogs);
 });
 
-const Post = mongoose.model('Post', postSchema);
-
-app.get('/posts', async (req, res) => {
-  try {
-    const posts = await Post.find();
-    res.send(posts);
-  } catch (err) {
-    res.status(500).send(err);
-  }
+app.post('/blogs', async (req, res) => {
+  const blog = new Blog(req.body);
+  await blog.save();
+  res.json(blog);
 });
 
-app.listen(port, () => console.log(`Server running on port ${port}`));
+// Start server
+app.listen(process.env.PORT || 3000, () => {
+  console.log('Server started');
+});
