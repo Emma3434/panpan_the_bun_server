@@ -1,12 +1,16 @@
 // Load express module
 const express = require('express');
 
+// to ensure client side run on same machine
+const cors = require("cors");
+
 // Initialize app
 const app = express();
 
 // Mongoose connection
+require('dotenv').config()
 const mongoose = require('mongoose');
-mongoose.connect('mongodb+srv://emma_wang:wangzhiheng@panpan.vhe0yg4.mongodb.net/blogs?retryWrites=true&w=majority');
+mongoose.connect(process.env.MONGODB_URI);
 const db = mongoose.connection;
 
 // Check for DB connection
@@ -16,6 +20,9 @@ db.once('open', function(){
 db.on('error', function(){
     console.log(err);
 });
+
+// to ensure client side run on same machine
+app.use(cors());
 
 // Route for home
 app.get('/', function (req, res) {
@@ -27,5 +34,6 @@ app.listen(3000, function(){
     console.log("Server started on localhost:3000");
 });
 
-const blogs = require('./routes/blogs');
-app.use('/blogs', blogs);
+const diaries = require('./routes/diaries');
+app.use('/diaries', diaries);
+

@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
-let blogSchema = mongoose.Schema({
+let diarySchema = mongoose.Schema({
     title: {
         type: String,
         required: true
     },
     date: {
-        type: String,
+        type: Date,
         required: true
     },
     weather:{
@@ -14,9 +14,9 @@ let blogSchema = mongoose.Schema({
         required: true
     },
     content: {
-        type: Object,
+        type: Array,
         required: true
     }
 });
 
-module.exports = mongoose.model('Blog', blogSchema);
+module.exports = mongoose.model('Diary', diarySchema);
