@@ -41,3 +41,5 @@ app.use('/diaries', diaries);
 const about = require('./routes/about');
 app.use('/about', about);
 
+const epanpan = require('./routes/epanpan');
+app.use('/epanpan', epanpan);
