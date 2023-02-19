@@ -17,6 +17,6 @@ let diarySchema = mongoose.Schema({
         type: Array,
         required: true
     }
-});
+}, {collection: 'diaries'});
 
 module.exports = mongoose.model('Diary', diarySchema);

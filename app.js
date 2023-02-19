@@ -38,3 +38,6 @@ app.listen(port, function(){
 const diaries = require('./routes/diaries');
 app.use('/diaries', diaries);
 
+const about = require('./routes/about');
+app.use('/about', about);
+
