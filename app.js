@@ -43,3 +43,7 @@ app.use('/about', about);
 
 const epanpan = require('./routes/epanpan');
 app.use('/epanpan', epanpan);
+
+//images
+const image = require('./routes/image');
+app.use('/image', image);
