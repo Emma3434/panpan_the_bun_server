@@ -53,4 +53,41 @@ router.get('/:id', async function(req, res) {
   }
 });
 
+// POST request to create a new diary entry
+router.post('/', async function(req, res) {
+  try {
+    const diary = new Diary({
+      title: req.body.title,
+      date: req.body.date,
+      weather: req.body.weather,
+      content: req.body.content
+    });
+    const newDiary = await diary.save();
+    res.status(201).json(newDiary);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+
+
+// PUT request to update an existing diary entry
+router.put('/:id', async function(req, res) {
+  try {
+    const diary = await Diary.findByIdAndUpdate(req.params.id, {
+      title: req.body.title,
+      date: req.body.date,
+      weather: req.body.weather,
+      content: req.body.content
+    }, { new: true });
+    if (!diary) {
+      return res.status(404).json({ message: 'Diary not found' });
+    }
+    res.status(200).json(diary);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+
 module.exports = router;

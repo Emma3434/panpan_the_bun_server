@@ -1,11 +1,16 @@
 // Load express module
 const express = require('express');
 
+const bodyParser = require('body-parser');
+
 // to ensure client side run on same machine
 const cors = require("cors");
 
 // Initialize app
 const app = express();
+
+// Parse incoming requests with JSON payloads
+app.use(bodyParser.json());
 
 // Mongoose connection
 require('dotenv').config()
