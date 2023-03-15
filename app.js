@@ -30,8 +30,11 @@ app.get('/', function(req, res) {
   res.send('hello world');
 });
 
-const image = require('./routes/image');
-app.use('/image', image);
+const imagesRouter = require('./routes/image');
+app.use('/image', imagesRouter);
+
+const diariesRouter = require('./routes/diaries');
+app.use('/diaries', diariesRouter);
 
 const port = process.env.PORT || 3000;
 app.listen(port, function() {

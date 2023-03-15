@@ -7,10 +7,10 @@ const Image = require('../models/image.js');
 const router = express.Router();
 router.get('/', function (req, res) {
     let diaries = Diary.find({}, function(err, diaries){
-        if(err){
-            console.log(err);
-            res.sendStatus(500);
-        }
+      if (err) {
+        console.error('Error fetching diaries:', err);
+        res.sendStatus(500);
+      }      
         else {
             res.json(diaries);
         }
