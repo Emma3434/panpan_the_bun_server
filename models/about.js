@@ -6,7 +6,7 @@ let aboutSchema = mongoose.Schema({
         required: true
     },
     item: {
-        type: Date,
+        type: String,
         required: true
     },
     content:{
