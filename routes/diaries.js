@@ -33,13 +33,14 @@ router.get('/:id', async function(req, res) {
           resultContent.push({
             type: item.type,
             value: item.value,
-            img: image.img,
+            img: image.img, // convert image buffer to base64 string
             caption: item.caption
           });
         }
       } else {
         resultContent.push(item);
       }
+    
     }
     res.status(200).json({
       _id: diary._id,
@@ -47,7 +48,7 @@ router.get('/:id', async function(req, res) {
       date: diary.date,
       weather: diary.weather,
       content: resultContent
-    });
+    });    
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
