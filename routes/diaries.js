@@ -25,9 +25,10 @@ router.get('/:id', async function(req, res) {
     }
     const content = diary.content;
     const resultContent = [];
+
     for (let i = 0; i < content.length; i++) {
       const item = content[i];
-      if (item.type == 'image') {
+      if (item.type == 'single-image') {
         const image = await Image.findOne({ img_id: item.value });
         if (image) {
           resultContent.push({
@@ -37,10 +38,26 @@ router.get('/:id', async function(req, res) {
             caption: item.caption
           });
         }
+      } else if (item.type == 'double-image') {
+        const images = await Promise.all(
+          item.value.map(async (imageItem) => {
+            const image = await Image.findOne({ img_id: imageItem.value });
+            if (image) {
+              return {
+                value: imageItem.value,
+                img: image.img, // convert image buffer to base64 string
+                caption: imageItem.caption
+              };
+            }
+          })
+        );
+        resultContent.push({
+          type: 'double-image',
+          value: images,
+        });
       } else {
         resultContent.push(item);
       }
-    
     }
     res.status(200).json({
       _id: diary._id,
@@ -48,11 +65,12 @@ router.get('/:id', async function(req, res) {
       date: diary.date,
       weather: diary.weather,
       content: resultContent
-    });    
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
+
 
 // POST request to create a new diary entry
 router.post('/', async function(req, res) {
