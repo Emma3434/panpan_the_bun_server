@@ -36,6 +36,13 @@ app.use('/image', imagesRouter);
 const diariesRouter = require('./routes/diaries');
 app.use('/diaries', diariesRouter);
 
+const aboutRouter = require('./routes/about');
+app.use('/about', aboutRouter);
+
+const epanpanRouter = require('./routes/epanpan');
+app.use('/epanpan', epanpanRouter);
+
+
 const port = process.env.PORT || 3000;
 app.listen(port, function() {
   console.log('Server started on localhost:3000');
