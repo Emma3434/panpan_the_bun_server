@@ -10,7 +10,7 @@ router.get('/', function (req, res) {
       if (err) {
         console.error('Error fetching diaries:', err);
         res.sendStatus(500);
-      }      
+      }
         else {
             res.json(diaries);
         }
